@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLConnection;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,16 +31,14 @@ public class SimpleDownloadSerlvet extends HttpServlet {
         if ((fileName == null) || ("".equals(fileName))) {
             throw new IOException("filename cannot be null or empty");
         }
+        System.out.println(new File("").getAbsolutePath());
         String filePath = getServletContext().getRealPath("") + File.separator + "documents" + File.separator + fileName;
         LOGGER.info("Start download of " + filePath);
         File downloadFile = new File(filePath);
         FileInputStream inStream = new FileInputStream(downloadFile);
 
-        // obtains ServletContext
-        ServletContext context = getServletContext();
-
         // gets MIME type of the file
-        String mimeType = context.getMimeType(filePath);
+        String mimeType = URLConnection.guessContentTypeFromName(downloadFile.getName());
         if (mimeType == null) {
             // set to binary type if MIME mapping not found
             mimeType = "application/octet-stream";
