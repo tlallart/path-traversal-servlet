@@ -15,7 +15,9 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 
 /**
- * Created by tlallart on 03/11/14.
+ * Simple servlet to download a file
+ * Secured
+ * Use of DocumentUtil.getFileMoreSecure to get file
  */
 @WebServlet("/moresecuredownload")
 public class MoreSecureDownloadSerlvet extends HttpServlet {

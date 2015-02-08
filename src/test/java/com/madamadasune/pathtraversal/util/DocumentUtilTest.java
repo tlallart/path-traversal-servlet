@@ -1,4 +1,4 @@
-package com.madamadasune.pathtraversal.servlet;
+package com.madamadasune.pathtraversal.util;
 
 import com.madamadasune.pathtraversal.util.DocumentUtil;
 import static org.assertj.core.api.Assertions.*;
@@ -52,7 +52,7 @@ public class DocumentUtilTest {
     }
 
     @Test(expected = SecurityException.class)
-    public void getFileMoreSecurePasswd_shouldThrowsException() {
+    public void getFileMoreSecureAnyOtherFile_shouldThrowsException() {
         File f = DocumentUtil.getFileMoreSecure("src/test/resources", -8);
     }
 

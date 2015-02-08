@@ -18,7 +18,9 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * Created by tlallart on 03/11/14.
+ * Simple servlet to download a file
+ * Unsecured
+ * Use of DocumentUtil.getFile to get file
  */
 @WebServlet("/download")
 public class SimpleDownloadSerlvet extends HttpServlet {
