@@ -2,9 +2,40 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Directory traversal example</title>
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<p>Just a few examples of download features</p>
+<h1>Great select download list!</h1>
+<form method="GET" action="download" class="form-inline">
+    Unsecure download<br />
+    <select name="filename" class="form-control">
+        <option value="faif-2.0.pdf">faif-2.0.pdf</option>
+        <option value="GNU_logo.png">GNU_logo.png</option>
+        <option value="gpl-3.0.txt">gpl-3.0.txt</option>
+    </select>
+    <input type="submit" class="btn btn-default" />
+</form>
+
+<form method="GET" action="securedownload" class="form-inline">
+    Secure download<br />
+    <select name="filename" class="form-control">
+        <option value="faif-2.0.pdf">faif-2.0.pdf</option>
+        <option value="GNU_logo.png">GNU_logo.png</option>
+        <option value="gpl-3.0.txt">gpl-3.0.txt</option>
+    </select>
+    <input type="submit" class="btn btn-default" />
+</form>
+
+<form method="GET" action="moresecuredownload" class="form-inline">
+    More Secure download<br />
+    <select name="fileid" class="form-control">
+        <option value="1">faif-2.0.pdf</option>
+        <option value="2">GNU_logo.png</option>
+        <option value="3">gpl-3.0.txt</option>
+    </select>
+    <input type="submit" class="btn btn-default" />
+</form>
 </body>
 </html>

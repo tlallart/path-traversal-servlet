@@ -3,37 +3,35 @@ package com.madamadasune.pathtraversal.servlet;
 import com.madamadasune.pathtraversal.util.DocumentUtil;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
 
 /**
  * Created by tlallart on 03/11/14.
  */
-@WebServlet("/download")
-public class SimpleDownloadSerlvet extends HttpServlet {
+@WebServlet("/moresecuredownload")
+public class MoreSecureDownloadSerlvet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(SimpleDownloadSerlvet.class);
+    private static final Logger LOGGER = Logger.getLogger(MoreSecureDownloadSerlvet.class);
 
     @Override
     protected void doGet(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         // reads input file from an absolute path
-        String fileName = request.getParameter("filename");
-        if ((fileName == null) || ("".equals(fileName))) {
-            throw new IOException("filename cannot be null or empty");
+        String fileId = request.getParameter("fileid");
+        if ((fileId == null) || ("".equals(fileId))) {
+            throw new IOException("fileId cannot be null or empty");
         }
-        File downloadFile = DocumentUtil.getFile(getServletContext().getRealPath("") + File.separator + "documents" + File.separator + fileName);
+        Integer id = Integer.parseInt(fileId);
+        File downloadFile = DocumentUtil.getFileMoreSecure(getServletContext().getRealPath("") + File.separator + "documents", id);
         FileInputStream inStream = new FileInputStream(downloadFile);
 
         // gets MIME type of the file
