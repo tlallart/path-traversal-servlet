@@ -1,19 +1,19 @@
 package com.madamadasune.pathtraversal.util;
 
-import com.madamadasune.pathtraversal.util.DocumentUtil;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 
 import java.io.File;
 
 /**
- * Created by tlallart on 08/02/15.
+ * Tests for DocumentUtil
  */
 public class DocumentUtilTest {
 
+    private final String documentRoot = "src/test/resources";
+
     @Test
     public void getFileFaif_shouldReturn_faifFile() {
-        String documentRoot = "src/test/resources";
         File f = DocumentUtil.getFile("faif-2.0.pdf");
         assertThat(f).isNotNull();
         assertThat(f.getName()).isEqualTo("faif-2.0.pdf");
@@ -27,12 +27,11 @@ public class DocumentUtilTest {
      */
     @Test(expected = Exception.class)
     public void getFilePasswd_shouldThrowsException() {
-        File f = DocumentUtil.getFile("/etc/passwd");
+        DocumentUtil.getFile("/etc/passwd");
     }
 
     @Test
     public void getFileSecureFaif_shouldReturn_faifFile() {
-        String documentRoot = "src/test/resources";
         File f = DocumentUtil.getFileSecure(documentRoot, "faif-2.0.pdf");
         assertThat(f).isNotNull();
         assertThat(f.getName()).isEqualTo("faif-2.0.pdf");
@@ -40,12 +39,11 @@ public class DocumentUtilTest {
 
     @Test(expected = SecurityException.class)
     public void getFileSecurePasswd_shouldThrowsException() {
-        File f = DocumentUtil.getFileSecure("src/test/resources", "../../../../etc/passwd");
+        DocumentUtil.getFileSecure(documentRoot, "../../../../etc/passwd");
     }
 
     @Test
     public void getFileMoreSecureFaif_shouldReturn_faifFile() {
-        String documentRoot = "src/test/resources";
         File f = DocumentUtil.getFileMoreSecure(documentRoot, 1);
         assertThat(f).isNotNull();
         assertThat(f.getName()).isEqualTo("faif-2.0.pdf");
@@ -53,7 +51,7 @@ public class DocumentUtilTest {
 
     @Test(expected = SecurityException.class)
     public void getFileMoreSecureAnyOtherFile_shouldThrowsException() {
-        File f = DocumentUtil.getFileMoreSecure("src/test/resources", -8);
+        DocumentUtil.getFileMoreSecure(documentRoot, -8);
     }
 
 }
