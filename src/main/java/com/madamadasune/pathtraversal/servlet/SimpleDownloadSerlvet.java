@@ -14,11 +14,12 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 /**
  * Created by tlallart on 03/11/14.
  */
-@WebServlet("/SimpleDownloadServlet")
+@WebServlet("/download")
 public class SimpleDownloadSerlvet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(SimpleDownloadSerlvet.class);
@@ -31,7 +32,6 @@ public class SimpleDownloadSerlvet extends HttpServlet {
         if ((fileName == null) || ("".equals(fileName))) {
             throw new IOException("filename cannot be null or empty");
         }
-        System.out.println(new File("").getAbsolutePath());
         String filePath = getServletContext().getRealPath("") + File.separator + "documents" + File.separator + fileName;
         LOGGER.info("Start download of " + filePath);
         File downloadFile = new File(filePath);
