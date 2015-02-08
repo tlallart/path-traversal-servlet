@@ -4,10 +4,6 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +31,14 @@ public class DocumentUtil {
      * @param fileName the fileName to download
      * @return the File found on server
      */
-    public static File getFile(String fileName) {
+    public static File getFile(String fileName) throws IOException {
         LOGGER.info("Getting file " + fileName);
         File downloadFile = new File(fileName);
-        return downloadFile;
+        if (downloadFile.exists()) {
+            return downloadFile;
+        } else {
+            throw new IOException("fileName doesn't exist");
+        }
     }
 
     /**
@@ -48,13 +48,17 @@ public class DocumentUtil {
      * @return the File found on server
      * @throws SecurityException In case of directory traversal attempt
      */
-    public static File getFileSecure(String documentRoot, String fileName) throws SecurityException {
+    public static File getFileSecure(String documentRoot, String fileName) throws SecurityException, IOException {
         LOGGER.info("Trying to get file " + documentRoot + File.separator + fileName);
         if (fileName.contains("..")) {
             throw new SecurityException("Directory traversal attempt");
         }
         File downloadFile = new File(documentRoot + File.separator + fileName);
-        return downloadFile;
+        if (downloadFile.exists()) {
+            return downloadFile;
+        } else {
+            throw new IOException("fileName doesn't exist");
+        }
     }
 
     /**
@@ -62,18 +66,16 @@ public class DocumentUtil {
      * @param documentRoot The public document folder
      * @param id The file id to get
      * @return the File found on server
-     * @throws IOException In case of FS problem
      * @throws SecurityException In case of directory traversal attempt
      */
     public static File getFileMoreSecure(String documentRoot, Integer id) throws SecurityException {
         LOGGER.info("Trying to get file with id " + id + " in " + documentRoot);
-        initializeMap(documentRoot);
+        initializeMap();
         String fileName = files.get(id);
         if (fileName == null) {
-            throw new SecurityException("Directory traversal attempt");
+            throw new SecurityException("Unauthorized key");
         }
-        File downloadFile = new File(documentRoot + File.separator + fileName);
-        return downloadFile;
+        return new File(documentRoot + File.separator + fileName);
     }
 
     /**
@@ -86,11 +88,8 @@ public class DocumentUtil {
      * A simple increment could not be a good ID.
      * But the principle is just to access file only from an id to avoid every directory
      * traversal attempts.
-     * @param documentRoot The public folder to index
-     * @throws IOException In case of FS problem
      */
-    private static void initializeMap(String documentRoot) {
-        int i = 1;
+    private static void initializeMap() {
         files.put(1, "faif-2.0.pdf");
         files.put(2, "GNU_logo.png");
         files.put(3, "gpl-3.0.txt");
